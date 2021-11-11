@@ -1,0 +1,25 @@
+﻿#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+
+// define input slot
+SCREEN_PASS_TEXTURE_VIEWPORT(Input)
+
+Texture2D Input_Texture;
+SamplerState Input_Sampler;
+
+// Simple pass-through vertex shader
+void MainVS(
+	in float4 InPosition : ATTRIBUTE0,
+	in float2 UV : ATTRIBUTE1,
+	out float2 OutUV : TEXCOORD0,
+	out float4 OutPosition : SV_POSITION
+)
+{
+	DrawRectangle(InPosition, UV, OutPosition, OutUV);
+}
+
+// Simple inverse scene color shader
+float4 MainPS(float2 uv : TEXCOORD0) : SV_Target0
+{
+	return float4(1.0f - Input_Texture.Sample(Input_Sampler, uv).rgb, 1.0f);
+}
