@@ -27,5 +27,6 @@ Just copy paste them. (Of course you need to checkout whole engine source code f
 + BaseParrRendering.cpp, call RenderCustomTerrainPass() before UE's RenderBasePassInternal().
 + DeferredShadingRenderer.h, define RenderCustomTerrainPass().
 + CustomTerrainPass.h/.cpp, shader class for SimpleTerrainPlane.usf. And FMeshPassProcessor inheritance. AddMeshBatch() and RenderCustomTerrainPass() are implemented here.
++ Implementation detail: https://thegraphicguysquall.wordpress.com/2021/11/15/unreal-4-custom-mesh-pass-in-deferred-shading/
 ![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname2.jpg)
 ![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname.jpg)
