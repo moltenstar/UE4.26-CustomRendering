@@ -18,3 +18,14 @@ Just copy paste them. (Of course you need to checkout whole engine source code f
 + Use r.PostProcessing.SceneInverseEnabled for debugging this.
 + Implementation detail: https://thegraphicguysquall.wordpress.com/2021/10/09/customizing-shader-in-ue4-global-shader/
 ![alt text](https://i.imgur.com/sd6oYEw.jpg)
+
+### Hello World Deferred Mesh Pass (2021-11-15)
++ Add SimpleTerrainPlane.usf, which is the hello world mesh pass shader.
++ SceneVisibility.cpp, call DrawCommandPacket.AddCommandsForMesh() for my custom terrain pass. Also exclude my pass from depth pre pass.
++ PrimitiveSceneProxy.h/.cpp, add bCustomTerrainPass flag for differentaite my custom pass with UE's pass.
++ Add CustomTerrainMeshComponent.h, only meshes (actors) use this component will be rendered in my custom pass.
++ BaseParrRendering.cpp, call RenderCustomTerrainPass() before UE's RenderBasePassInternal().
++ DeferredShadingRenderer.h, define RenderCustomTerrainPass().
++ CustomTerrainPass.h/.cpp, shader class for SimpleTerrainPlane.usf. And FMeshPassProcessor inheritance. AddMeshBatch() and RenderCustomTerrainPass() are implemented here.
+![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname2.jpg)
+![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname.jpg)
