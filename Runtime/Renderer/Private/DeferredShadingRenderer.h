@@ -77,6 +77,11 @@ public:
 	 */
 	void GatherLightsAndComputeLightGrid(FRDGBuilder& GraphBuilder, bool bNeedLightGrid, FSortedLightSetSceneInfo &SortedLightSet);
 
+	void RenderCustomTerrainPass(FRDGBuilder& GraphBuilder,
+		const FRenderTargetBindingSlots& BasePassRenderTargets,
+		FExclusiveDepthStencil::Type BasePassDepthStencilAccess,
+		FRDGTextureRef ForwardScreenSpaceShadowMask);
+
 	void RenderBasePass(
 		FRDGBuilder& GraphBuilder,
 		FExclusiveDepthStencil::Type BasePassDepthStencilAccess,

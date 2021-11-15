@@ -173,6 +173,7 @@ FPrimitiveSceneProxy::FPrimitiveSceneProxy(const UPrimitiveComponent* InComponen
 #if WITH_EDITOR
 ,	NumUncachedStaticLightingInteractions(0)
 #endif
+,	bCustomTerrainPass(false)
 {
 	check(Scene);
 

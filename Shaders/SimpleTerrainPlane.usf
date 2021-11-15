@@ -1,0 +1,63 @@
+﻿#include "/Engine/Private/Common.ush"
+#include "/Engine/Generated/Material.ush"
+#include "/Engine/Generated/VertexFactory.ush"
+#include "/Engine/Private/DeferredShadingCommon.ush"
+
+struct FCustomTerrainPassVSToPS
+{
+	FVertexFactoryInterpolantsVSToPS FactoryInterpolants;
+	float4 Position : SV_POSITION;
+};
+
+void MainVS (FVertexFactoryInput Input, out FCustomTerrainPassVSToPS Output)
+{
+	// get world position
+	FVertexFactoryIntermediates VFIntermediates = GetVertexFactoryIntermediates(Input);
+	float4 WorldPosition = VertexFactoryGetWorldPosition(Input, VFIntermediates);
+
+	// setup normal tangent
+	float3x3 TangentToLocal = VertexFactoryGetTangentToLocal(Input, VFIntermediates);	
+	FMaterialVertexParameters VertexParameters = GetMaterialVertexParameters(Input, VFIntermediates, WorldPosition.xyz, TangentToLocal);
+
+	// transform to clip
+	ResolvedView = ResolveView();
+	Output.Position = INVARIANT(mul(WorldPosition, ResolvedView.WorldToClip));
+
+	// output factor interpolants
+	Output.FactoryInterpolants = VertexFactoryGetInterpolantsVSToPS(Input, VFIntermediates, VertexParameters);
+}
+
+// need to be deferred output
+void MainPS(FCustomTerrainPassVSToPS Input
+	, out float4 OutTarget0 : SV_Target0
+	, out float4 OutTarget1 : SV_Target1
+	, out float4 OutTarget2 : SV_Target2
+	, out float4 OutTarget3 : SV_Target3
+	, out float4 OutTarget4 : SV_Target4
+	, out float4 OutTarget5 : SV_Target5)
+{
+	FMaterialPixelParameters MaterialParameters = GetMaterialPixelParameters(Input.FactoryInterpolants, Input.Position);
+	FGBufferData GBuffer = (FGBufferData)0;
+	GBuffer.PerObjectGBufferData = GetPrimitiveData(MaterialParameters.PrimitiveId).PerObjectGBufferData;
+	float4 TestColor = float4(0.75f, 0.75f, 0, 1);
+	
+	// final result, now simply use a color
+	OutTarget0 = TestColor;
+
+	// normal output
+	OutTarget1.rgb = EncodeNormal( MaterialParameters.TangentToWorld[2] );
+	OutTarget1.a = GBuffer.PerObjectGBufferData;
+
+	// metallica/specular/roughness buffer output
+	OutTarget2 = 0;
+	OutTarget2.a = EncodeShadingModelIdAndSelectiveOutputMask(SHADINGMODELID_UNLIT, 0);
+
+	// base color output, a channel is for AO
+	OutTarget3 = TestColor;
+
+	// custom data, set this to red for fun
+	OutTarget4 = float4(1, 0, 0, 0);
+
+	// shadow factor output, now set it to 1 for test only
+	OutTarget5 = 1;
+}

@@ -823,7 +823,7 @@ void AddPostProcessingPasses(FRDGBuilder& GraphBuilder, const FViewInfo& View, c
 	}
 
 	/*** begin customization post effects here ***/
-	SceneColor = AddSceneInverse(GraphBuilder, View, SceneColor);
+	SceneColor = AddCustomSceneInverse(GraphBuilder, View, SceneColor);
 	/*** end customization post effects here ***/
 
 	if (PassSequence.IsEnabled(EPass::VisualizeStationaryLightOverlap))

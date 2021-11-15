@@ -48,7 +48,7 @@
 #include "GpuDebugRendering.h"
 #include "HairStrands/HairStrandsRendering.h"
 #include "GPUSortManager.h"
-#include "ShaderClass/SceneInverse.h"
+#include "CustomSceneInverse.h"
 
 static TAutoConsoleVariable<int32> CVarStencilForLODDither(
 	TEXT("r.StencilForLODDither"),
@@ -1693,7 +1693,7 @@ void FDeferredShadingSceneRenderer::Render(FRHICommandListImmediate& RHICmdList)
 	}
 
 	checkSlow(RHICmdList.IsOutsideRenderPass());
-
+	
 	// The Z-prepass
 
 	// Draw the scene pre-pass / early z pass, populating the scene depth buffer and HiZ

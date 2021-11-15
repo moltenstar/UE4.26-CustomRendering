@@ -935,6 +935,10 @@ void FDeferredShadingSceneRenderer::RenderBasePass(
 	FRenderTargetBindingSlots BasePassRenderTargets = GetRenderTargetBindings(ERenderTargetLoadAction::ELoad, BasePassTexturesView);
 	BasePassRenderTargets.DepthStencil = FDepthStencilBinding(BasePassDepthTexture, ERenderTargetLoadAction::ELoad, ERenderTargetLoadAction::ELoad, ExclusiveDepthStencil);
 
+	/* BEGIN CUSTOM TERRAIN PASS */
+	RenderCustomTerrainPass(GraphBuilder, BasePassRenderTargets, BasePassDepthStencilAccess, ForwardShadowMaskTexture);
+	/* END CUSTOM TERRAIN PASS */
+
 	AddSetCurrentStatPass(GraphBuilder, GET_STATID(STAT_CLM_BasePass));
 	RenderBasePassInternal(GraphBuilder, BasePassRenderTargets, BasePassDepthStencilAccess, ForwardShadowMaskTexture, bDoParallelBasePass, bRenderLightmapDensity);
 	AddSetCurrentStatPass(GraphBuilder, GET_STATID(STAT_CLM_AfterBasePass));
@@ -1190,7 +1194,7 @@ void FDeferredShadingSceneRenderer::RenderBasePassInternal(
 				if (bShouldRenderView)
 				{
 					GraphBuilder.AddPass(
-						RDG_EVENT_NAME("BasePassSquall"),
+						RDG_EVENT_NAME("BasePass"),
 						PassParameters,
 						ERDGPassFlags::Raster,
 						[this, &View, PassParameters](FRHICommandList& RHICmdList)

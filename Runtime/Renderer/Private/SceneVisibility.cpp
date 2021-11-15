@@ -2240,7 +2240,11 @@ struct FRelevancePacket
 							bool bMobileIsInDepthPassMaskedMesh = (bMobileMaskedInEarlyPass && ViewRelevance.bMasked) && ShadingPath == EShadingPath::Mobile;
 							if ((StaticMeshRelevance.bUseForDepthPass && bDrawDepthOnly && ShadingPath != EShadingPath::Mobile) || bMobileIsInDepthPassMaskedMesh)
 							{
-								DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::DepthPass);
+								// exclude custom terrain pass for depth
+								if (!PrimitiveSceneInfo->Proxy->UseCustomTerrainPass())
+								{
+									DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::DepthPass);
+								}
 
 #if RHI_RAYTRACING
 								if (IsRayTracingEnabled())
@@ -2256,12 +2260,18 @@ struct FRelevancePacket
 							// Mark static mesh as visible for rendering
 							if (StaticMeshRelevance.bUseForMaterial && (ViewRelevance.bRenderInMainPass || ViewRelevance.bRenderCustomDepth))
 							{
-								DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::BasePass);
-								MarkMask |= EMarkMaskBits::StaticMeshVisibilityMapMask;
-
 								/* BEGIN CUSTOM TERRAIN MESH PASS */
-								DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::CustomTerrainPass);
+								if (StaticMesh.PrimitiveSceneInfo->Proxy->UseCustomTerrainPass())
+								{
+									DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::CustomTerrainPass);
+								}
+								else
+								{
+									DrawCommandPacket.AddCommandsForMesh(PrimitiveIndex, PrimitiveSceneInfo, StaticMeshRelevance, StaticMesh, Scene, bCanCache, EMeshPass::BasePass);
+								}
 								/* END CUSTOM TERRAIN MESH PASS */
+
+								MarkMask |= EMarkMaskBits::StaticMeshVisibilityMapMask;
 
 								if (StaticMeshRelevance.bUseAnisotropy)
 								{

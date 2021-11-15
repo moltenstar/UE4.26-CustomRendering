@@ -554,6 +554,7 @@ public:
 	inline bool NeedsLevelAddedToWorldNotification() const { return bNeedsLevelAddedToWorldNotification; }
 	inline bool IsComponentLevelVisible() const { return bIsComponentLevelVisible; }
 	inline bool ShouldReceiveMobileCSMShadows() const { return bReceiveMobileCSMShadows; }
+	inline bool UseCustomTerrainPass() const { return bCustomTerrainPass; }
 
 	/** Returns whether draws velocity in base pass. */
 	inline bool DrawsVelocity() const {
@@ -924,6 +925,9 @@ protected:
 	uint8 bWantsSelectionOutline : 1;
 
 	uint8 bVerifyUsedMaterials : 1;
+
+	/** whether to use custom terrain mesh **/
+	uint8 bCustomTerrainPass : 1;
 
 private:
 
