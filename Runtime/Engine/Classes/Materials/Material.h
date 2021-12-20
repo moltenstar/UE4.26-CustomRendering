@@ -323,6 +323,9 @@ class UMaterial : public UMaterialInterface
 
 	UPROPERTY()
 	FColorMaterialInput BaseColor;
+
+	UPROPERTY()
+	FColorMaterialInput JustATestColor;
 #endif
 
 	UPROPERTY()
@@ -383,7 +386,7 @@ class UMaterial : public UMaterialInterface
 private:
 	/** Determines how inputs are combined to create the material's final color. */
 	UPROPERTY(EditAnywhere, Category=Material, AssetRegistrySearchable)
-	TEnumAsByte<enum EMaterialShadingModel> ShadingModel; 
+	TEnumAsByte<enum EMaterialShadingModel> ShadingModel;
 
 public:
 	/** Whether the material should cast shadows as masked even though it has a translucent blend mode. */

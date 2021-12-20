@@ -203,6 +203,10 @@ int32 FMaterialResource::CompilePropertyAndSetMaterialProperty(EMaterialProperty
 			}
 			break;
 
+		case MP_JustATestColor: 
+			Ret = MaterialInterface->CompileProperty(Compiler, MP_JustATestColor, MFCF_ForceCast);
+			break;
+
 		case MP_MaterialAttributes:
 			Ret = INDEX_NONE;
 			break;
@@ -3302,7 +3306,7 @@ void UMaterial::Serialize(FArchive& Ar)
 	}
 #endif // #if WITH_EDITOR
 
-	static_assert(MP_MAX == 32, "New material properties must have DoMaterialAttributeReorder called on them to ensure that any future reordering of property pins is correctly applied.");
+	static_assert(MP_MAX == 33, "New material properties must have DoMaterialAttributeReorder called on them to ensure that any future reordering of property pins is correctly applied.");
 
 	if (Ar.UE4Ver() < VER_UE4_MATERIAL_MASKED_BLENDMODE_TIDY)
 	{
@@ -4994,6 +4998,7 @@ FExpressionInput* UMaterial::GetExpressionInputForProperty(EMaterialProperty InP
 		case MP_MaterialAttributes:		return &MaterialAttributes;
 		case MP_PixelDepthOffset:		return &PixelDepthOffset;
 		case MP_ShadingModel:			return &ShadingModelFromMaterialExpression;
+		case MP_JustATestColor:			return &JustATestColor;
 	}
 
 	if (InProperty >= MP_CustomizedUVs0 && InProperty <= MP_CustomizedUVs7)
@@ -5557,6 +5562,7 @@ int32 UMaterial::CompilePropertyEx( FMaterialCompiler* Compiler, const FGuid& At
 		case MP_WorldDisplacement:		return WorldDisplacement.CompileWithDefault(Compiler, Property);
 		case MP_PixelDepthOffset:		return PixelDepthOffset.CompileWithDefault(Compiler, Property);
 		case MP_ShadingModel:			return ShadingModelFromMaterialExpression.CompileWithDefault(Compiler, Property);
+		case MP_JustATestColor:			return JustATestColor.CompileWithDefault(Compiler, Property);
 
 		default:
 			if (Property >= MP_CustomizedUVs0 && Property <= MP_CustomizedUVs7)

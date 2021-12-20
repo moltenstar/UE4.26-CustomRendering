@@ -39,9 +39,9 @@ public:
 		{
 			return nullptr;
 		}
-		LLM_SCOPE(ELLMTag::StaticMesh);
 
 		FCustomTerrainMeshSceneProxy* Proxy = ::new FCustomTerrainMeshSceneProxy(this);
+		
 		return Proxy;
 	}
 };

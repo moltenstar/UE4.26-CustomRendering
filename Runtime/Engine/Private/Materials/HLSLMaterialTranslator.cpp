@@ -130,6 +130,7 @@ FHLSLMaterialTranslator::FHLSLMaterialTranslator(FMaterial* InMaterial,
 	SharedPixelProperties[MP_PixelDepthOffset] = true;
 	SharedPixelProperties[MP_SubsurfaceColor] = true;
 	SharedPixelProperties[MP_ShadingModel] = true;
+	SharedPixelProperties[MP_JustATestColor] = true;
 
 	for (int32 Frequency = 0; Frequency < SF_NumFrequencies; ++Frequency)
 	{
@@ -653,6 +654,7 @@ bool FHLSLMaterialTranslator::Translate()
 
 		// Make sure to compile this property before using ShadingModelsFromCompilation
 		Chunk[MP_ShadingModel]					= Material->CompilePropertyAndSetMaterialProperty(MP_ShadingModel			,this);
+		Chunk[MP_JustATestColor]				= Material->CompilePropertyAndSetMaterialProperty(MP_JustATestColor			,this);
 			
 		// Get shading models from material.
 		FMaterialShadingModelField MaterialShadingModels = Material->GetShadingModels(); 

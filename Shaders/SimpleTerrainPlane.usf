@@ -47,7 +47,7 @@ void MainPS(FCustomTerrainPassVSToPS Input
 	float3 TranslatedWorldPosition = SvPositionToResolvedTranslatedWorld(Input.Position);
 	CalcMaterialParametersEx(MaterialParameters, PixelMaterialInputs, Input.Position, ScreenPosition, bIsFrontFace, TranslatedWorldPosition, TranslatedWorldPosition);
 	
-	half3 BaseColor = GetMaterialBaseColor(PixelMaterialInputs);
+	half3 BaseColor = PixelMaterialInputs.JustATestColor;
 	half  Metallic = GetMaterialMetallic(PixelMaterialInputs);
 	half  Specular = GetMaterialSpecular(PixelMaterialInputs);
 	float MaterialAO = GetMaterialAmbientOcclusion(PixelMaterialInputs);
