@@ -30,3 +30,17 @@ Just copy paste them. (Of course you need to checkout whole engine source code f
 + Implementation detail: https://thegraphicguysquall.wordpress.com/2021/11/15/unreal-4-custom-mesh-pass-in-deferred-shading/
 ![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname2.jpg)
 ![alt text](https://thegraphicguysquall.files.wordpress.com/2021/11/noname.jpg)
+
+### Play With Material Inputs (2021-12-20)
++ SimpleTerrainPlane.usf: Use FPixelMaterialInputs struct instead of test color. So that it can react to Material Graph input.
++ Runtime\Engine\Public\SceneTypes.h: Add MP_JustATestColor enum.
++ Runtime\Engine\Private\Materials\MaterialShared.cpp: Add JustATestColor usages.
++ Runtime\Engine\Private\Materials\MaterialExpressions.cpp: Add JustATestColor usages.
++ Runtime\Engine\Private\Materials\Material.cpp: Add JustATestColor usages.
++ Runtime\Engine\Private\Materials\HLSLMaterialTranslator.cpp: Add JustATestColor usages.
++ Runtime\Engine\Classes\Materials\MaterialExpressionMakeMaterialAttributes.h: Add JustATestColor usages.
++ Runtime\Engine\Classes\Materials\Material.h: Add JustATestColor usages.
++ Editor\UnrealEd\Private\MaterialGraph.cpp: Add JustATestColor usages.
++ Implementation detail: https://thegraphicguysquall.wordpress.com/2021/12/21/unreal-4-play-with-material-inputs/
+![alt text](https://thegraphicguysquall.files.wordpress.com/2021/12/noname5.jpg)
+![alt text](https://thegraphicguysquall.files.wordpress.com/2021/12/noname4-1.jpg)
